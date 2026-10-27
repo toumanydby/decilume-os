@@ -83,7 +83,7 @@ decilume-os/
 
 ## 4. Execution Roadmap
 
-- [ ] **Milestone 1:** Project Scaffolding & Container Setup in WSL2 (`decilume-os`, Bun 1.3, Next.js 15, Tailwind, `next-themes`, Dockerfile, docker-compose).
+- [x] **Milestone 1:** Project Scaffolding & Container Setup in WSL2 (`decilume-os`, Bun 1.3, Next.js 15, Tailwind, `next-themes`, Dockerfile, docker-compose).
 - [ ] **Milestone 2:** Decision Lab Core (Zustand state store, criteria slider matrix, Recharts radar integration).
 - [ ] **Milestone 3:** Scraper & Gemini Engine (Scraping route with Cheerio, Gemini streaming summary route, digest UI).
 - [ ] **Milestone 4:** Dashboard Shell & Local Persistence (Tabs integration, theme switcher, JSON export/import).
