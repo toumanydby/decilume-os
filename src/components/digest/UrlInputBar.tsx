@@ -5,6 +5,7 @@ import { Sparkles, Link as LinkIcon, FileText, Loader2, ArrowRight } from "lucid
 import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/lib/store";
 import { DigestItem } from "@/types/digest";
+import { MarkdownViewer } from "./MarkdownViewer";
 
 export function UrlInputBar() {
   const [mode, setMode] = useState<"url" | "text">("url");
@@ -222,14 +223,25 @@ export function UrlInputBar() {
 
       {/* Live streaming preview while processing */}
       {loading && streamOutput && (
-        <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 space-y-2 animate-pulse">
-          <div className="flex items-center gap-2 text-xs font-semibold text-indigo-400">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Streaming Synthesis...</span>
+        <div className="rounded-2xl border border-indigo-500/30 bg-card p-5 sm:p-6 space-y-4 shadow-lg shadow-indigo-500/5 relative overflow-hidden">
+          <div className="h-0.5 w-full bg-indigo-500/20 absolute top-0 left-0 overflow-hidden">
+            <div className="h-full w-1/3 bg-indigo-500 rounded-full animate-pulse" />
           </div>
-          <div className="text-xs text-muted-foreground whitespace-pre-wrap font-mono leading-relaxed max-h-48 overflow-y-auto">
-            {streamOutput}
+
+          <div className="flex items-center justify-between pb-3 border-b border-border/60">
+            <div className="flex items-center gap-2 text-xs font-semibold text-indigo-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+              </span>
+              <span>Live Executive Streaming Synthesis</span>
+            </div>
+            <span className="text-[10px] font-mono text-muted-foreground uppercase">
+              Real-time Token Feed
+            </span>
           </div>
+
+          <MarkdownViewer content={streamOutput} isStreaming={true} />
         </div>
       )}
     </div>
