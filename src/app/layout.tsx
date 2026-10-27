@@ -25,9 +25,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <div className="flex flex-1 overflow-hidden">
+          <div className="flex flex-1 min-h-0 overflow-hidden">
             <Sidebar />
-            <main className="flex-1 overflow-y-auto p-6 md:p-8">
+            <main id="workspace-scroll" className="min-w-0 flex-1 overflow-y-auto p-6 md:p-8 lg:ml-64">
               {children}
             </main>
           </div>
@@ -36,4 +36,3 @@ export default function RootLayout({
     </html>
   );
 }
-
