@@ -15,6 +15,18 @@ export async function scrapeUrl(targetUrl: string): Promise<ScrapeResult> {
     signal: AbortSignal.timeout(10000), // 10s timeout
   });
 
+  // Detect anti-bot firewalls like AWS WAF or Cloudflare
+  const isWaf =
+    response.status === 202 ||
+    Boolean(response.headers.get("x-amzn-waf-action")) ||
+    Boolean(response.headers.get("cf-mitigated"));
+
+  if (isWaf) {
+    throw new Error(
+      `This website (${domain}) is protected by an anti-bot firewall (e.g. AWS WAF / Cloudflare) that blocks automated server extraction. Please copy the article text or abstract and paste it directly into 'Raw Text' mode.`
+    );
+  }
+
   if (!response.ok) {
     throw new Error(`Failed to fetch URL: ${response.status} ${response.statusText}`);
   }
@@ -68,6 +80,12 @@ export async function scrapeUrl(targetUrl: string): Promise<ScrapeResult> {
     .trim();
 
   const wordCount = content.split(/\s+/).filter(Boolean).length;
+
+  if (!content || content.length < 80) {
+    throw new Error(
+      `Unable to extract readable article content from ${domain}. The page may require JavaScript execution, authentication, or blocked scraping. Please switch to 'Raw Text' mode and paste the article or abstract directly.`
+    );
+  }
 
   return {
     url: targetUrl,

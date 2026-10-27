@@ -45,6 +45,12 @@ export function UrlInputBar() {
         title = scraped.title || title;
         content = scraped.content;
         sourceDomain = scraped.domain;
+
+        if (!content || content.trim().length < 50) {
+          throw new Error(
+            `No readable text could be extracted from ${sourceDomain || "this URL"}. The website may be protected by an anti-bot firewall (like IEEE / Cloudflare) or require client-side JavaScript. Please switch to 'Raw Text' mode and paste the text directly.`
+          );
+        }
       }
 
       // Stream summary with Gemini
@@ -194,8 +200,22 @@ export function UrlInputBar() {
         </div>
 
         {errorMsg && (
-          <div className="text-xs text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded-lg p-2.5">
-            {errorMsg}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-lg p-3">
+            <div className="flex-1 leading-relaxed">{errorMsg}</div>
+            {mode === "url" && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("text");
+                  setErrorMsg(null);
+                  setInputVal("");
+                }}
+                className="shrink-0 px-3 py-1.5 rounded-md bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-medium transition-colors text-xs flex items-center gap-1.5"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Switch to Raw Text</span>
+              </button>
+            )}
           </div>
         )}
       </div>
