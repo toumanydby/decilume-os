@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 999.7557499999998 1040.9" width="999.7557499999998" height="1040.9" style="--bg:#18181B;--fg:#F4F4F5;--line:#71717A;--muted:#A1A1AA;--surface:#27272A;--border:#3F3F46;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="Client_State" data-label="Client State &amp; Persistence">
+  <rect x="40" y="289.8" width="387.39299999999986" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="289.8" width="387.39299999999986" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="303.8" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Client State &amp; Persistence</text>
+</g>
+<g class="subgraph" data-id="Container_Env" data-label="WSL2 / Docker Environment (Bun 1.3 + Node 22)">
+  <rect x="311.2754999999999" y="440.70000000000005" width="415.42174999999986" height="335" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="311.2754999999999" y="440.70000000000005" width="415.42174999999986" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="323.2754999999999" y="454.70000000000005" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">WSL2 / Docker Environment (Bun 1.3 + Node 22)</text>
+</g>
+<g class="subgraph" data-id="Future_Scale" data-label="Future Evolution Tier">
+  <rect x="426.08974999999987" y="40" width="533.6659999999999" height="110.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="426.08974999999987" y="40" width="533.6659999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="438.08974999999987" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Future Evolution Tier</text>
+</g>
+<g class="subgraph" data-id="External_Cloud" data-label="External Cloud">
+  <rect x="275.9299999999999" y="904" width="426.962" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="275.9299999999999" y="904" width="426.962" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="287.9299999999999" y="918" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">External Cloud</text>
+</g>
+<polyline class="edge" data-from="User" data-to="Client" data-style="solid" data-arrow-start="true" data-arrow-end="true" points="362.2947499999999,135.9 362.2947499999999,198.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
+<polyline class="edge" data-from="Client" data-to="Zustand" data-style="solid" data-arrow-start="true" data-arrow-end="true" points="306.8910833333332,235.8 306.8910833333332,271.8 233.69649999999993,271.8 233.69649999999993,333.80000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
+<polyline class="edge" data-from="Client" data-to="NextServer" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="1. Submit URL" points="417.6984166666665,235.8 417.6984166666665,271.8 490.8929999999998,271.8 490.8929999999998,484.70000000000005" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Scraper" data-to="WebPages" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="2. HTTP GET with Clean Headers" points="436.3538333333332,606.5 436.3538333333332,618.5 413.9582499999999,618.5 413.9582499999999,886 385.1524999999999,886 385.15249999999986,948" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="AIService" data-to="GeminiAPI" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="4. Stream Prompt" points="567.8277499999998,759.7 567.8277499999999,886 596.6334999999999,886 596.6334999999999,948" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="NextServer" data-to="Scraper" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="490.89299999999986,521.6 490.89299999999986,569.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Scraper" data-to="AIService" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="3. Extracted Markdown/Text" points="545.4321666666665,606.5 545.4321666666665,618.5 567.8277499999999,618.5 567.8277499999999,722.8000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="Client" data-to="NextServer" data-label="1. Submit URL">
+  <rect x="451.3929999999998" y="361.4" width="78.238" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="490.51199999999983" y="376.54999999999995" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">1. Submit URL</text>
+</g>
+<g class="edge-label" data-from="Scraper" data-to="WebPages" data-label="2. HTTP GET with Clean Headers">
+  <rect x="327.9582499999999" y="824.7" width="171.49600000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="413.70624999999995" y="839.85" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">2. HTTP GET with Clean Headers</text>
+</g>
+<g class="edge-label" data-from="AIService" data-to="GeminiAPI" data-label="4. Stream Prompt">
+  <rect x="519.3277499999999" y="824.7" width="96.058" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="567.3567499999999" y="839.85" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">4. Stream Prompt</text>
+</g>
+<g class="edge-label" data-from="Scraper" data-to="AIService" data-label="3. Extracted Markdown/Text">
+  <rect x="492.32774999999987" y="649.5000000000001" width="150.706" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="567.6807499999999" y="664.6500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">3. Extracted Markdown/Text</text>
+</g>
+<g class="node" data-id="User" data-label="User" data-shape="stadium">
+  <rect x="326.49974999999995" y="99" width="71.59" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="362.29474999999996" y="117.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">User</text>
+</g>
+<g class="node" data-id="Client" data-label="Next.js 15 Client (App Router + Tailwind + Recharts)" data-shape="rectangle">
+  <rect x="196.0837499999999" y="198.9" width="332.42199999999997" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="362.2947499999999" y="217.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Next.js 15 Client (App Router + Tailwind + Recharts)</text>
+</g>
+<g class="node" data-id="Zustand" data-label="Zustand Store (Local-first, IndexedDB / LocalStorage)" data-shape="rectangle">
+  <rect x="56" y="333.8" width="355.39299999999986" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="233.69649999999993" y="352.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Zustand Store (Local-first, IndexedDB / LocalStorage)</text>
+</g>
+<g class="node" data-id="NextServer" data-label="Next.js Standalone Server" data-shape="rectangle">
+  <rect x="392.85399999999987" y="484.70000000000005" width="196.078" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="490.89299999999986" y="503.15000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Next.js Standalone Server</text>
+</g>
+<g class="node" data-id="Scraper" data-label="Ingestion Service (Fetch + Cheerio / htmlparser2)" data-shape="rectangle">
+  <rect x="327.2754999999999" y="569.6" width="327.2349999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="490.89299999999986" y="588.0500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Ingestion Service (Fetch + Cheerio / htmlparser2)</text>
+</g>
+<g class="node" data-id="AIService" data-label="AI Streaming Service (Google Gemini SDK)" data-shape="rectangle">
+  <rect x="424.9582499999999" y="722.8000000000001" width="285.7389999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="567.8277499999999" y="741.2500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">AI Streaming Service (Google Gemini SDK)</text>
+</g>
+<g class="node" data-id="Redis" data-label="Redis / KV Cache (Sub-5ms hits)" data-shape="cylinder">
+  <rect x="442.08974999999987" y="106" width="226.45899999999997" height="36.900000000000006" fill="var(--_node-fill)" stroke="none" />
+  <line x1="442.08974999999987" y1="106" x2="442.08974999999987" y2="142.9" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="668.5487499999998" y1="106" x2="668.5487499999998" y2="142.9" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <ellipse cx="555.3192499999999" cy="142.9" rx="113.22949999999999" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <ellipse cx="555.3192499999999" cy="106" rx="113.22949999999999" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="555.3192499999999" y="124.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Redis / KV Cache (Sub-5ms hits)</text>
+</g>
+<g class="node" data-id="RustWorker" data-label="Rust (Wasm / Axum) Heavy Scraper" data-shape="rectangle">
+  <rect x="696.5487499999998" y="99" width="247.207" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="820.1522499999999" y="117.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Rust (Wasm / Axum) Heavy Scraper</text>
+</g>
+<g class="node" data-id="WebPages" data-label="Target Article / Webpage" data-shape="rectangle">
+  <rect x="291.9299999999999" y="948" width="186.44499999999996" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="385.15249999999986" y="966.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Target Article / Webpage</text>
+</g>
+<g class="node" data-id="GeminiAPI" data-label="Google Gemini 2.0 Flash" data-shape="rectangle">
+  <rect x="506.3749999999999" y="948" width="180.517" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="596.6334999999999" y="966.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Google Gemini 2.0 Flash</text>
+</g>
+</svg>
