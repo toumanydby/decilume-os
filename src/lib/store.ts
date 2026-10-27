@@ -149,10 +149,16 @@ export const useAppStore = create<AppState>()(
         })),
 
       removeSession: (id) =>
-        set((state) => ({
-          sessions: state.sessions.filter((s) => s.id !== id),
-          activeSessionId: state.activeSessionId === id ? (state.sessions[0]?.id ?? null) : state.activeSessionId,
-        })),
+        set((state) => {
+          const remaining = state.sessions.filter((s) => s.id !== id);
+          return {
+            sessions: remaining,
+            activeSessionId:
+              state.activeSessionId === id
+                ? remaining[0]?.id ?? null
+                : state.activeSessionId,
+          };
+        }),
 
       addCriterion: (sessionId, name, weight = 5) =>
         set((state) => ({

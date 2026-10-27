@@ -8,7 +8,7 @@ import { CriteriaEditor } from "@/components/decision/CriteriaEditor";
 import { OptionScoreSlider } from "@/components/decision/OptionScoreSlider";
 import { DecisionRadarChart } from "@/components/decision/DecisionRadarChart";
 import { WinnerBanner } from "@/components/decision/WinnerBanner";
-import { Sparkles, Compass, Plus, Sliders } from "lucide-react";
+import { Sparkles, Compass, Plus, Sliders, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
@@ -21,6 +21,7 @@ export default function DashboardPage() {
     setActiveSessionId,
     createSession,
     updateSessionTitle,
+    removeSession,
   } = useAppStore();
 
   const activeDigest =
@@ -118,6 +119,24 @@ export default function DashboardPage() {
                 <Plus className="w-3.5 h-3.5" />
                 <span>New Session</span>
               </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  if (
+                    confirm(
+                      `Are you sure you want to delete "${activeSession.title}"? This cannot be undone.`
+                    )
+                  ) {
+                    removeSession(activeSession.id);
+                  }
+                }}
+                className="gap-1.5 text-xs text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 hover:border-rose-500/30"
+                title="Delete this decision matrix"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Delete</span>
+              </Button>
             </div>
           </div>
 
@@ -134,6 +153,34 @@ export default function DashboardPage() {
               <DecisionRadarChart session={activeSession} />
               <OptionScoreSlider session={activeSession} />
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Tab 2 Empty State: When no decision sessions exist */}
+      {activeTab === "decision" && !activeSession && (
+        <section className="space-y-6">
+          <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-border rounded-2xl p-8 bg-card/20 space-y-4">
+            <div className="w-12 h-12 rounded-xl bg-muted/60 flex items-center justify-center text-muted-foreground">
+              <Compass className="w-6 h-6 text-indigo-400" />
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-1">
+                No Decision Matrices Available
+              </h4>
+              <p className="text-xs text-muted-foreground max-w-sm">
+                Create a new matrix to begin multi-criteria quantitative evaluation and radar
+                trade-off analysis.
+              </p>
+            </div>
+            <Button
+              size="sm"
+              onClick={() => createSession("New Decision Matrix")}
+              className="gap-1.5 text-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Create Decision Matrix</span>
+            </Button>
           </div>
         </section>
       )}
