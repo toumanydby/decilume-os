@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env*.local
+*.log
+Dockerfile*
+docker-compose*
+README.md
+SYSTEM_ARCHITECTURE_RFC.md
+mermaid-diagram.svg
+

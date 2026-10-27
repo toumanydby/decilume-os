@@ -137,7 +137,7 @@ export function UrlInputBar() {
 
         <div className="text-[11px] font-mono text-muted-foreground flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-          <span>Gemini 2.0 Flash Active</span>
+          <span>Gemini 3.8 Flash Active</span>
         </div>
       </div>
 

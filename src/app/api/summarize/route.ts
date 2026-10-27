@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getGeminiClient, GEMINI_MODEL } from "@/lib/gemini";
+import { getGeminiClient, FALLBACK_GEMINI_MODELS } from "@/lib/gemini";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     if (!apiKey) {
       return new Response(
         JSON.stringify({
-          error: "GEMINI_API_KEY is not configured. Please add your key to .env.local to enable Gemini 2.0 Flash summaries.",
+          error: "GEMINI_API_KEY is not configured. Please add your key to .env.local to enable Gemini summaries.",
         }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
@@ -48,9 +48,29 @@ Please format your response clearly in Markdown with these specific sections:
 `;
 
     const genAI = getGeminiClient();
-    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
-    const result = await model.generateContentStream(prompt);
+    // Multi-model resilience cascade:
+    // If a model is experiencing high demand (503) or rate limit (429), seamlessly fall back
+    let result = null;
+    let successfulModel = "";
+    let lastError: any = null;
+
+    for (const modelName of FALLBACK_GEMINI_MODELS) {
+      try {
+        const model = genAI.getGenerativeModel({ model: modelName });
+        const streamResult = await model.generateContentStream(prompt);
+        result = streamResult;
+        successfulModel = modelName;
+        break;
+      } catch (err: any) {
+        console.warn(`[Decilume OS] Model ${modelName} unavailable (${err?.status || err?.message}). Attempting fallback...`);
+        lastError = err;
+      }
+    }
+
+    if (!result) {
+      throw lastError || new Error("All candidate Gemini models were unavailable.");
+    }
 
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
@@ -64,6 +84,7 @@ Please format your response clearly in Markdown with these specific sections:
           }
           controller.close();
         } catch (err: any) {
+          console.error("Stream processing error:", err);
           controller.error(err);
         }
       },
@@ -73,6 +94,7 @@ Please format your response clearly in Markdown with these specific sections:
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
+        "X-Decilume-Model": successfulModel,
       },
     });
   } catch (error: any) {

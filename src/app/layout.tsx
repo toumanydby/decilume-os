@@ -7,7 +7,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 export const metadata: Metadata = {
   title: "Decilume OS | Personal Command Center",
   description:
-    "High-performance personal command center: Automated article ingestion with Gemini 2.0 Flash streaming & quantitative multi-criteria decision analysis.",
+    "High-performance personal command center: Automated article ingestion with Gemini 3.8 Flash streaming & quantitative multi-criteria decision analysis.",
 };
 
 export default function RootLayout({

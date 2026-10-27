@@ -40,7 +40,7 @@ export default function DashboardPage() {
               <span>Digest Engine</span>
             </h2>
             <p className="text-xs text-muted-foreground mt-1">
-              Automated article ingestion & high-density executive briefings via Google Gemini 2.0 Flash.
+              Automated article ingestion & high-density executive briefings via Google Gemini 3.8 Flash.
             </p>
           </div>
 
