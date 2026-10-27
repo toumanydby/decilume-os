@@ -9,8 +9,9 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
     env_file:
+      - path: .env
+        required: false
       - path: .env.local
         required: false
     restart: unless-stopped
@@ -35,8 +36,9 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3000
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
     env_file:
+      - path: .env
+        required: false
       - path: .env.local
         required: false
     command: sh -c "bun install && bun run dev"
