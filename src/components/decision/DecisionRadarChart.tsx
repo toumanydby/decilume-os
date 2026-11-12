@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from "recharts";
 import { DecisionSession } from "@/types/decision";
+import { effectiveScore } from "@/lib/decision-analysis";
 
 interface DecisionRadarChartProps {
   session: DecisionSession;
@@ -27,20 +28,23 @@ export function DecisionRadarChart({ session }: DecisionRadarChartProps) {
   if (!mounted) {
     return (
       <div className="h-80 w-full flex items-center justify-center bg-card/40 rounded-xl border border-border">
-        <span className="text-xs text-muted-foreground animate-pulse">Initializing Visualization...</span>
+        <span className="text-xs text-muted-foreground animate-pulse">
+          Initializing Visualization...
+        </span>
       </div>
     );
   }
 
-  // Format data for Recharts:
-  // [{ criterion: "Impact", "Option Alpha": 9, "Option Beta": 7 }, ...]
+  // Use immutable IDs as data keys: editable option names are not guaranteed unique.
   const chartData = session.criteria.map((c) => {
     const entry: Record<string, any> = {
       criterion: c.name,
       fullMark: 10,
     };
     session.options.forEach((opt) => {
-      entry[opt.name] = opt.scores[c.id] ?? 5;
+      const rawScore = opt.scores[c.id];
+      entry[opt.id] =
+        typeof rawScore === "number" ? effectiveScore(rawScore, c) : 0;
     });
     return entry;
   });
@@ -49,7 +53,18 @@ export function DecisionRadarChart({ session }: DecisionRadarChartProps) {
     return (
       <div className="h-80 w-full flex flex-col items-center justify-center bg-card/40 rounded-xl border border-dashed border-border p-6 text-center">
         <p className="text-xs text-muted-foreground">
-          At least 3 criteria are required to render the multi-dimensional radar polygon.
+          At least 3 criteria are required to render the multi-dimensional radar
+          polygon.
+        </p>
+      </div>
+    );
+  }
+
+  if (session.options.length === 0) {
+    return (
+      <div className="h-80 w-full flex items-center justify-center bg-card/40 rounded-xl border border-dashed border-border p-6 text-center">
+        <p className="text-xs text-muted-foreground">
+          Add at least one option to compare its trade-offs.
         </p>
       </div>
     );
@@ -58,8 +73,12 @@ export function DecisionRadarChart({ session }: DecisionRadarChartProps) {
   return (
     <div className="h-96 w-full rounded-xl border border-border bg-card p-4 flex flex-col">
       <div className="flex items-center justify-between pb-2">
-        <span className="text-xs font-semibold text-foreground">Multi-Dimensional Trade-Offs</span>
-        <span className="text-[10px] font-mono text-muted-foreground">Normalized Scale (1 - 10)</span>
+        <span className="text-xs font-semibold text-foreground">
+          Multi-Dimensional Trade-Offs
+        </span>
+        <span className="text-[10px] font-mono text-muted-foreground">
+          Fit scale · blanks render as 0
+        </span>
       </div>
 
       <div className="flex-1 w-full min-h-[300px]">
@@ -80,7 +99,7 @@ export function DecisionRadarChart({ session }: DecisionRadarChartProps) {
               <Radar
                 key={opt.id}
                 name={opt.name}
-                dataKey={opt.name}
+                dataKey={opt.id}
                 stroke={opt.color || "#6366f1"}
                 fill={opt.color || "#6366f1"}
                 fillOpacity={0.25}
@@ -107,4 +126,3 @@ export function DecisionRadarChart({ session }: DecisionRadarChartProps) {
     </div>
   );
 }
-

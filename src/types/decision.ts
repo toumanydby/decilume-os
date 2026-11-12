@@ -3,6 +3,15 @@ export interface Criterion {
   name: string;
   weight: number; // 1 to 10
   description?: string;
+  /** Whether a larger raw value is desirable, or should be inverted for ranking. */
+  direction?: "maximize" | "minimize";
+  /** A non-negotiable threshold. Minimize criteria must be at or below it. */
+  gate?: number;
+}
+
+export interface ScoreEvidence {
+  note?: string;
+  confidence?: "low" | "medium" | "high";
 }
 
 export interface DecisionOption {
@@ -10,7 +19,9 @@ export interface DecisionOption {
   name: string;
   description?: string;
   color?: string;
-  scores: Record<string, number>; // criterionId -> score (1 to 10)
+  /** criterionId -> raw score (1 to 10); null means the assessment is incomplete. */
+  scores: Record<string, number | null>;
+  scoreEvidence?: Record<string, ScoreEvidence>;
 }
 
 export interface DecisionSession {

@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { DigestItem } from "@/types/digest";
-import { DecisionSession, Criterion, DecisionOption } from "@/types/decision";
+import {
+  DecisionSession,
+  Criterion,
+  DecisionOption,
+  ScoreEvidence,
+} from "@/types/decision";
 
 export type ActiveTab = "digest" | "decision" | "history" | "settings";
 
@@ -24,16 +29,35 @@ interface AppState {
   createSession: (title: string, description?: string) => string;
   updateSessionTitle: (id: string, title: string, description?: string) => void;
   removeSession: (id: string) => void;
-  
+
   // Criteria Actions
   addCriterion: (sessionId: string, name: string, weight?: number) => void;
-  updateCriterion: (sessionId: string, criterionId: string, updates: Partial<Criterion>) => void;
+  updateCriterion: (
+    sessionId: string,
+    criterionId: string,
+    updates: Partial<Criterion>,
+  ) => void;
   removeCriterion: (sessionId: string, criterionId: string) => void;
 
   // Options Actions
   addOption: (sessionId: string, name: string, color?: string) => void;
-  updateOption: (sessionId: string, optionId: string, updates: Partial<DecisionOption>) => void;
-  setOptionScore: (sessionId: string, optionId: string, criterionId: string, score: number) => void;
+  updateOption: (
+    sessionId: string,
+    optionId: string,
+    updates: Partial<DecisionOption>,
+  ) => void;
+  setOptionScore: (
+    sessionId: string,
+    optionId: string,
+    criterionId: string,
+    score: number | null,
+  ) => void;
+  setOptionScoreEvidence: (
+    sessionId: string,
+    optionId: string,
+    criterionId: string,
+    evidence: ScoreEvidence,
+  ) => void;
   removeOption: (sessionId: string, optionId: string) => void;
 
   // Data Management
@@ -42,11 +66,36 @@ interface AppState {
 }
 
 const defaultCriteria: Criterion[] = [
-  { id: "c-1", name: "Impact / ROI", weight: 9, description: "Expected long-term value" },
-  { id: "c-2", name: "Execution Speed", weight: 8, description: "Time required to deliver" },
-  { id: "c-3", name: "Capital Cost", weight: 6, description: "Budget and infrastructure expenses" },
-  { id: "c-4", name: "Risk & Complexity", weight: 7, description: "Technical uncertainty and downside" },
-  { id: "c-5", name: "Strategic Alignment", weight: 9, description: "Fit with core objectives" },
+  {
+    id: "c-1",
+    name: "Impact / ROI",
+    weight: 9,
+    description: "Expected long-term value",
+  },
+  {
+    id: "c-2",
+    name: "Execution Speed",
+    weight: 8,
+    description: "Time required to deliver",
+  },
+  {
+    id: "c-3",
+    name: "Capital Cost",
+    weight: 6,
+    description: "Budget and infrastructure expenses",
+  },
+  {
+    id: "c-4",
+    name: "Risk & Complexity",
+    weight: 7,
+    description: "Technical uncertainty and downside",
+  },
+  {
+    id: "c-5",
+    name: "Strategic Alignment",
+    weight: 9,
+    description: "Fit with core objectives",
+  },
 ];
 
 const defaultOptions: DecisionOption[] = [
@@ -91,7 +140,8 @@ const defaultOptions: DecisionOption[] = [
 const initialSession: DecisionSession = {
   id: "session-default",
   title: "Architecture Strategy Evaluation",
-  description: "Comparing In-House, SaaS, and Hybrid architectures across strategic criteria.",
+  description:
+    "Comparing In-House, SaaS, and Hybrid architectures across strategic criteria.",
   criteria: defaultCriteria,
   options: defaultOptions,
   createdAt: new Date().toISOString(),
@@ -114,7 +164,8 @@ export const useAppStore = create<AppState>()(
       removeDigest: (id) =>
         set((state) => ({
           digests: state.digests.filter((d) => d.id !== id),
-          activeDigestId: state.activeDigestId === id ? null : state.activeDigestId,
+          activeDigestId:
+            state.activeDigestId === id ? null : state.activeDigestId,
         })),
       setActiveDigestId: (id) => set({ activeDigestId: id }),
       clearDigests: () => set({ digests: [], activeDigestId: null }),
@@ -129,7 +180,7 @@ export const useAppStore = create<AppState>()(
           id,
           title,
           description,
-          criteria: [...defaultCriteria],
+          criteria: defaultCriteria.map((criterion) => ({ ...criterion })),
           options: [],
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -144,7 +195,14 @@ export const useAppStore = create<AppState>()(
       updateSessionTitle: (id, title, description) =>
         set((state) => ({
           sessions: state.sessions.map((s) =>
-            s.id === id ? { ...s, title, description, updatedAt: new Date().toISOString() } : s
+            s.id === id
+              ? {
+                  ...s,
+                  title,
+                  description,
+                  updatedAt: new Date().toISOString(),
+                }
+              : s,
           ),
         })),
 
@@ -155,7 +213,7 @@ export const useAppStore = create<AppState>()(
             sessions: remaining,
             activeSessionId:
               state.activeSessionId === id
-                ? remaining[0]?.id ?? null
+                ? (remaining[0]?.id ?? null)
                 : state.activeSessionId,
           };
         }),
@@ -183,7 +241,9 @@ export const useAppStore = create<AppState>()(
             if (s.id !== sessionId) return s;
             return {
               ...s,
-              criteria: s.criteria.map((c) => (c.id === criterionId ? { ...c, ...updates } : c)),
+              criteria: s.criteria.map((c) =>
+                c.id === criterionId ? { ...c, ...updates } : c,
+              ),
               updatedAt: new Date().toISOString(),
             };
           }),
@@ -210,9 +270,9 @@ export const useAppStore = create<AppState>()(
         set((state) => ({
           sessions: state.sessions.map((s) => {
             if (s.id !== sessionId) return s;
-            const defaultScores: Record<string, number> = {};
+            const defaultScores: Record<string, number | null> = {};
             s.criteria.forEach((c) => {
-              defaultScores[c.id] = 5;
+              defaultScores[c.id] = null;
             });
             const newOption: DecisionOption = {
               id: `opt-${Date.now()}`,
@@ -234,7 +294,9 @@ export const useAppStore = create<AppState>()(
             if (s.id !== sessionId) return s;
             return {
               ...s,
-              options: s.options.map((opt) => (opt.id === optionId ? { ...opt, ...updates } : opt)),
+              options: s.options.map((opt) =>
+                opt.id === optionId ? { ...opt, ...updates } : opt,
+              ),
               updatedAt: new Date().toISOString(),
             };
           }),
@@ -252,10 +314,33 @@ export const useAppStore = create<AppState>()(
                   ...opt,
                   scores: {
                     ...opt.scores,
-                    [criterionId]: Math.max(1, Math.min(10, score)),
+                    [criterionId]:
+                      score === null ? null : Math.max(1, Math.min(10, score)),
                   },
                 };
               }),
+              updatedAt: new Date().toISOString(),
+            };
+          }),
+        })),
+
+      setOptionScoreEvidence: (sessionId, optionId, criterionId, evidence) =>
+        set((state) => ({
+          sessions: state.sessions.map((s) => {
+            if (s.id !== sessionId) return s;
+            return {
+              ...s,
+              options: s.options.map((opt) =>
+                opt.id === optionId
+                  ? {
+                      ...opt,
+                      scoreEvidence: {
+                        ...opt.scoreEvidence,
+                        [criterionId]: evidence,
+                      },
+                    }
+                  : opt,
+              ),
               updatedAt: new Date().toISOString(),
             };
           }),
@@ -275,7 +360,16 @@ export const useAppStore = create<AppState>()(
 
       exportStateJson: () => {
         const { digests, sessions } = get();
-        return JSON.stringify({ version: "1.0", exportedAt: new Date().toISOString(), digests, sessions }, null, 2);
+        return JSON.stringify(
+          {
+            version: "1.0",
+            exportedAt: new Date().toISOString(),
+            digests,
+            sessions,
+          },
+          null,
+          2,
+        );
       },
 
       importStateJson: (jsonString: string) => {
@@ -299,6 +393,6 @@ export const useAppStore = create<AppState>()(
     {
       name: "decilume-os-storage",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

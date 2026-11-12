@@ -7,7 +7,7 @@ import {
 } from "@/lib/gemini";
 
 const MAX_ATTEMPTS_PER_MODEL = 2;
-const BASE_BACKOFF_MS = 600;
+const BASE_BACKOFF_MS = 300; // shorter — cascade is small, fail-fast is better
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -77,7 +77,7 @@ Please format your response clearly in Markdown with these specific sections:
           lastError = err;
           const transient = isTransientGeminiError(err);
           console.warn(
-            `[Decilume OS] Model ${modelName} attempt ${attempt + 1} failed (${getErrorStatus(err) ?? "unknown"}).`
+            `[Decilume OS] Model ${modelName} unavailable (${getErrorStatus(err) ?? "unknown"}). Attempting fallback...`
           );
           if (!transient) {
             if (getErrorStatus(err) !== 404) sawOnlyTransientErrors = false;
