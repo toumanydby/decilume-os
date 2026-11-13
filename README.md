@@ -1,4 +1,20 @@
-# Decilume OS
+<div align="center">
+
+# ⚡ Decilume OS
+### The High-Performance Personal Executive Command Center
+
+*Deci* (Decision) + *Lume* (Illuminate / Light) — Shedding light on complex decisions and dense technical knowledge.
+
+[![Next.js 15](https://img.shields.io/badge/Next.js-15.1-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19.0-61dafb?style=flat-square&logo=react)](https://react.dev/)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5.9-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Bun](https://img.shields.io/badge/Bun-1.3+-fbf0df?style=flat-square&logo=bun)](https://bun.sh/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.6_Flash-4285f4?style=flat-square&logo=google)](https://ai.google.dev/)
+[![Docker Ready](https://img.shields.io/badge/Docker-Multi--Stage-2496ed?style=flat-square&logo=docker)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=flat-square)](LICENSE)
+
+</div>
 
 > **Decilume OS is a personal executive command center that turns dense web articles into sharp executive briefings and calculates quantitative, weighted decision matrices to help leaders and students make confident choices in minutes.**
 
@@ -183,5 +199,10 @@ Build the **Digest $\rightarrow$ Decision Lab Bridge**: add an **"Auto-Generate 
 
 ---
 
-## 📄 License
-MIT © [Sogekihei](https://github.com/toumanydby)
+## 📄 8. License
+
+Open-source software licensed under the MIT © [toumanydby](https://github.com/toumanydby).
+
+<div align="center">
+<b>Decilume OS</b> — <i>Illuminating choices, eliminating friction.</i>
+</div>
