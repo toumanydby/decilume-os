@@ -161,7 +161,19 @@ Using native Bun 1.3 in WSL2, project dependencies (Next.js 15, React 19, Rechar
 
 ---
 
-## 📄 7. License
+## 🔮 7. The Future of Decilume OS (Roadmap)
+
+Where Decilume OS is heading next:
+
+- **🤖 Automated MCDA Matrix Extraction:** Connect the two engines directly — allow the Digest Engine to extract candidate architectural options, trade-offs, and proposed criteria from whitepapers and populate a Decision Lab matrix in one click.
+- **📑 Multi-Document Comparative Synthesis:** Ingest 3+ articles or RFCs simultaneously to generate a synthesized comparative briefing highlighting contradictions, consensus, and trade-offs.
+- **🧠 Zero-Cloud Semantic Search (Wasm Vector DB):** Run local embeddings in-browser (via Transformers.js + DuckDB Wasm) to search historical briefings offline with 100% data sovereignty.
+- **📄 Native PDF & arXiv Ingestion:** Direct parsing of academic whitepapers and technical PDFs with automatic math and diagram recognition.
+- **🔗 Stateless Team Sharing:** Share decision matrices via URL fragment compression (`#matrix=...`), allowing colleagues to inspect, duplicate, and adjust sliders without needing accounts or a central database.
+
+---
+
+## 📄 8. License
 
 Open-source software licensed under the **[MIT License](LICENSE)**.
 
