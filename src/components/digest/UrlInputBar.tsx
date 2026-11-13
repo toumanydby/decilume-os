@@ -100,8 +100,10 @@ export function UrlInputBar() {
       });
 
       if (!sumRes.ok) {
-        const errJson = await sumRes.json();
-        throw new Error(errJson.error || "Failed to generate briefing.");
+        const errJson = await sumRes.json().catch(() => ({}));
+        const isOverloaded = sumRes.status === 503;
+        const msg = errJson.error || "Failed to generate briefing.";
+        throw Object.assign(new Error(msg), { retryable: isOverloaded });
       }
 
       const reader = sumRes.body?.getReader();
@@ -142,7 +144,12 @@ export function UrlInputBar() {
       setManualTitle("");
     } catch (err: any) {
       console.error(err);
-      setErrorMsg(err.message || "An unexpected error occurred.");
+      const isRetryable = err?.retryable === true;
+      setErrorMsg(
+        isRetryable
+          ? "⚡ All Gemini models are currently overloaded. Please wait a few seconds and try again — this is temporary."
+          : err.message || "An unexpected error occurred."
+      );
     } finally {
       setLoading(false);
       setStage("idle");

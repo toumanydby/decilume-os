@@ -66,6 +66,15 @@ docker compose --profile dev up
 
 ---
 
+## ☁️ GitHub and Vercel deployment
+
+`main` is the production branch and `dev` is the shared development branch.
+GitHub Actions validates both branches, while Vercel deploys `main` to
+Production and `dev` to a Preview environment. Follow the one-time setup in
+[the deployment guide](docs/DEPLOYMENT.md).
+
+---
+
 ## 📂 Project Architecture
 
 ```text
