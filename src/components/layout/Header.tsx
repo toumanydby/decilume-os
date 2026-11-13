@@ -30,9 +30,9 @@ export function Header() {
       if (content) {
         const success = importStateJson(content);
         if (success) {
-          alert("Backup successfully restored!");
+          alert("Successfully imported! Your existing sessions and history have been preserved.");
         } else {
-          alert("Failed to restore backup. Invalid format.");
+          alert("Failed to import. Please ensure the file is a valid JSON workspace or decision session.");
         }
       }
     };

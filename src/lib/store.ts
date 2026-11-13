@@ -375,15 +375,78 @@ export const useAppStore = create<AppState>()(
       importStateJson: (jsonString: string) => {
         try {
           const parsed = JSON.parse(jsonString);
-          if (parsed && Array.isArray(parsed.sessions)) {
-            set({
-              sessions: parsed.sessions,
-              activeSessionId: parsed.sessions[0]?.id ?? null,
-              digests: Array.isArray(parsed.digests) ? parsed.digests : [],
-            });
-            return true;
+          if (!parsed || typeof parsed !== "object") return false;
+
+          const currentDigests = get().digests;
+          const currentSessions = get().sessions;
+
+          let importedSessions: DecisionSession[] = [];
+          let importedDigests: DigestItem[] = [];
+
+          if (Array.isArray(parsed)) {
+            // Check if array of sessions
+            if (
+              parsed.length > 0 &&
+              typeof parsed[0] === "object" &&
+              "criteria" in parsed[0] &&
+              "options" in parsed[0]
+            ) {
+              importedSessions = parsed as DecisionSession[];
+            }
+          } else if (
+            typeof parsed === "object" &&
+            "criteria" in parsed &&
+            "options" in parsed &&
+            Array.isArray((parsed as any).criteria)
+          ) {
+            // Single session object directly imported
+            importedSessions = [parsed as DecisionSession];
+          } else {
+            // Workspace export format
+            if (Array.isArray(parsed.sessions)) {
+              importedSessions = parsed.sessions;
+            }
+            if (Array.isArray(parsed.digests)) {
+              importedDigests = parsed.digests;
+            }
           }
-          return false;
+
+          if (importedSessions.length === 0 && importedDigests.length === 0) {
+            return false;
+          }
+
+          // Non-destructive merge for sessions:
+          // Keep all existing sessions. If an imported session has the same ID, update it; otherwise append it.
+          const sessionMap = new Map<string, DecisionSession>();
+          currentSessions.forEach((s) => sessionMap.set(s.id, s));
+          importedSessions.forEach((s) => sessionMap.set(s.id, s));
+          const mergedSessions = Array.from(sessionMap.values());
+
+          // Non-destructive merge for digests:
+          // Keep all existing history. If an imported digest has the same ID, update it; otherwise merge.
+          const digestMap = new Map<string, DigestItem>();
+          currentDigests.forEach((d) => digestMap.set(d.id, d));
+          importedDigests.forEach((d) => digestMap.set(d.id, d));
+          const mergedDigests = Array.from(digestMap.values());
+
+          // Sort digests chronologically (newest first)
+          mergedDigests.sort((a, b) => {
+            const timeA = new Date(a.createdAt).getTime() || 0;
+            const timeB = new Date(b.createdAt).getTime() || 0;
+            return timeB - timeA;
+          });
+
+          set({
+            sessions: mergedSessions,
+            activeSessionId:
+              importedSessions[0]?.id ??
+              get().activeSessionId ??
+              mergedSessions[0]?.id ??
+              null,
+            digests: mergedDigests,
+          });
+
+          return true;
         } catch (err) {
           console.error("Failed to import state JSON:", err);
           return false;
