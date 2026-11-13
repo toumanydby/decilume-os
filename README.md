@@ -135,7 +135,7 @@ console.log("Winner:", res.winner?.option.name, "| Score:", res.winner?.percenta
 ```
 
 ### Deployment URL
-- **Production URL:** [Decilume-OS](https://decilumeos-523zsrhen-tdcorp.vercel.app/)
+- **Production URL:** [Decilume-OS](https://decilumeos-mu.vercel.app/))
 - **Local:** [http://localhost:3000](http://localhost:3000)
 
 ---
